@@ -7,7 +7,6 @@ from sqlalchemy import select, func
 router = Router()
 
 
-# 🚀 Команда /start
 @router.message(CommandStart())
 async def start(message: Message):
     keyboard = InlineKeyboardMarkup(
@@ -19,10 +18,9 @@ async def start(message: Message):
     await message.answer("Выбери, что хочешь посмотреть:", reply_markup=keyboard)
 
 
-# 📊 Статистика по чату
 @router.callback_query(F.data == "chat_stats")
 async def chat_stats(callback: CallbackQuery):
-    chat_id = str(callback.message.chat.id)  # 👈 приводим к строке
+    chat_id = str(callback.message.chat.id) 
     print(f"⚡ Получена статистика по чату {chat_id}")
 
     async with SessionLocal() as session:
@@ -64,11 +62,9 @@ async def chat_stats(callback: CallbackQuery):
     await callback.message.answer(result, parse_mode="Markdown")
     await callback.answer()
 
-
-# 👥 Выбор пользователя
 @router.callback_query(F.data == "choose_user")
 async def choose_user(callback: CallbackQuery):
-    chat_id = str(callback.message.chat.id)  # 👈 тоже строка
+    chat_id = str(callback.message.chat.id)  
 
     async with SessionLocal() as session:
         query = await session.execute(
@@ -92,10 +88,9 @@ async def choose_user(callback: CallbackQuery):
     await callback.answer()
 
 
-# 👤 Статистика по пользователю
 @router.callback_query(F.data.startswith("user_"))
 async def user_stats(callback: CallbackQuery):
-    chat_id = str(callback.message.chat.id)  # 👈 приводим к строке
+    chat_id = str(callback.message.chat.id)  
     target_user = callback.data.split("_", 1)[1]
     print(f"⚡ Получена статистика по пользователю {target_user} в чате {chat_id}")
 

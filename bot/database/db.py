@@ -16,7 +16,7 @@ class Message(Base):
     color = Column(String)
 
 engine = create_async_engine(
-    "postgresql+asyncpg://postgres:27092004@localhost:5433/botdb",
+    "postgresql+asyncpg://postgres:your",
     echo=True
 )
 
